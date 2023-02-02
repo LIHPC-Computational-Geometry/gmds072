@@ -1,0 +1,63 @@
+# vtk DataFile Version 3.0
+vtk output
+ASCII
+DATASET POLYDATA
+POINTS 5 double
+0   0   0
+1   0   0
+1   1   0
+0   1   0
+0.5 0.5 1
+POLYGONS 6 24
+3 0 1 2 
+3 0 2 3 
+3 0 1 4
+3 1 2 4
+3 2 3 4
+3 3 0 4
+
+CELL_DATA 6
+FIELD FieldData 6
+GMDS_IDS 1 6 long
+0 1 2 3 4 5
+Surf0000 1 6 int
+1 1 0 0 0 0 
+Surf0001 1 6 int
+0 0 1 0 0 0
+Surf0002 1 6 int
+0 0 0 1 0 0
+Surf0003 1 6 int
+0 0 0 0 1 0
+Surf0004 1 6 int
+0 0 0 0 0 1
+
+POINT_DATA 5
+FIELD FieldData 14
+GMDS_IDS 1 5 long
+0 1 2 3 4 
+Crb0000 1 5 int
+1 1 0 0 0 
+Crb0001 1 5 int
+0 1 1 0 0
+Crb0002 1 5 int
+0 0 1 1 0
+Crb0003 1 5 int
+1 0 0 1 0 
+Crb0004 1 5 int
+1 0 0 0 1
+Crb0005 1 5 int
+0 1 0 0 1
+Crb0006 1 5 int
+0 0 1 0 1
+Crb0007 1 5 int
+0 0 0 1 1
+Pt0000 1 5 int
+1 0 0 0 0 
+Pt0001 1 5 int
+0 1 0 0 0 
+Pt0002 1 5 int
+0 0 1 0 0 
+Pt0003 1 5 int
+0 0 0 1 0 
+Pt0004 1 5 int
+0 0 0 0 1 

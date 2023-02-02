@@ -1,0 +1,9 @@
+#compute installation prefix relative to this file
+get_filename_component(_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(_prefix "${_dir}" ABSOLUTE)  
+
+#import targets
+include("${_prefix}/gmds-targets.cmake")
+
+#report other data
+set(GMDS_INCLUDE_DIRS "${_prefix}/include")  

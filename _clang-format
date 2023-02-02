@@ -1,0 +1,17 @@
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
+BasedOnStyle: Google
+
+AccessModifierOffset: -7
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AlwaysBreakAfterReturnType: AllDefinitions
+BreakBeforeBraces: Mozilla
+BreakConstructorInitializersBeforeComma: true
+ColumnLimit: 120
+ConstructorInitializerIndentWidth: 1
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+IndentCaseLabels: false
+IndentWidth: 8
+SpaceAfterCStyleCast: true
