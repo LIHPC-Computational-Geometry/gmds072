@@ -1,4 +1,6 @@
 #include <iostream>
+#include <GMDS/IG/IGMesh.h>
+#include <GMDS/CAD/GeomVolume.h>
 /*----------------------------------------------------------------------------*/
 using namespace gmds;
 int main() {
