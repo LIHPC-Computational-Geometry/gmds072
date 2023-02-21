@@ -4,5 +4,7 @@ Deprecated version of the [gmds](https://github.com/LIHPC-Computational-Geometry
 
 This project is a dependency of the [mgx](https://github.com/LIHPC-Computational-Geometry/mgx) product.
 
-Its Spack and Cmake CIs are based on reusable workflows provided in [lihpccg-ci](https://github.com/LIHPC-Computational-Geometry/lihpccg-ci) project. 
+Its Spack and Cmake CIs are based on reusable workflows provided in [lihpccg-ci](https://github.com/LIHPC-Computational-Geometry/lihpccg-ci) project.
+
+We copied the Spack CI (not reused) due to the Spack recipe name which is gmds (and not gmds072).
 
