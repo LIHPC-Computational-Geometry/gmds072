@@ -6,5 +6,5 @@ This project is a dependency of the [mgx](https://github.com/LIHPC-Computational
 
 Its Spack and Cmake CIs are based on reusable workflows provided in [lihpccg-ci](https://github.com/LIHPC-Computational-Geometry/lihpccg-ci) project.
 
-We copied the Spack CI (not reused) due to the Spack recipe name which is gmds (and not gmds072).
+Spack CI has been copied (not reused) due to the Spack recipe name which is gmds (and not gmds072).
 
