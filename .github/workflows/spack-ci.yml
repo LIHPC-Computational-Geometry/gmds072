@@ -32,8 +32,8 @@ jobs:
         run : |
           source /spack/share/spack/setup-env.sh
           git clone --depth=1 https://github.com/LIHPC-Computational-Geometry/spack_recipes_meshing.git
-          spack repo add ./spack_recipes_meshing/meshing_repo
-          spack repo add ./spack_recipes_meshing/supersede_repo
+          spack repo add ./spack_recipes_meshing/meshing
+          spack repo add ./spack_recipes_meshing/meshing_supersede
 
       - name: Build and install with Spack
         shell: bash
@@ -41,10 +41,10 @@ jobs:
           source /spack/share/spack/setup-env.sh 
           spack env create ci-env
           spack env activate ci-env
-          spack add mgx
+          spack add gmds
           # we use GITHUB_WORKSPACE instead of github.Workspace because in containers it
           # seems to be incorrect (see https://github.com/actions/runner/issues/2058)
-          spack develop -p $GITHUB_WORKSPACE --no-clone mgx@999
+          spack develop -p $GITHUB_WORKSPACE --no-clone gmds@999
           spack concretize --reuse
           spack install
 
@@ -53,7 +53,7 @@ jobs:
         run: |
           source /spack/share/spack/setup-env.sh
           spack env activate ci-env
-          spack load mgx
+          spack load gmds
           cd test_link/
           cmake -S . -B build_exe
           cmake --build build_exe
