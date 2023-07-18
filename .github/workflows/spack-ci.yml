@@ -1,61 +1,93 @@
 name: Spack CI
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - '**'
   pull_request:
-    branches: [ main ]
+  # Allows you to run this workflow manually
+  workflow_dispatch:
 
 env:
   QT_QPA_PLATFORM: offscreen
 
+# The following lines can not work because Spack project name is gmsd
+# and github repository is gmds072. Names needs to be identical to use reusable ci
+#  call:
+#    name: Call Spack CI
+#    uses: LIHPC-Computational-Geometry/lihpccg-ci/.github/workflows/spack-reusable.yml@main
+# While waiting for the merge of gmds versions, copy/paste of workflow 
 jobs:
+
   main:
-    name: Spack build & run
-    # The CMake configure and build commands are platform agnostic and should work equally
-    # well on Linux, Windows or Mac.
+    name: Main job
+    # The CMake configure and build commands are platform agnostic 
+    # and should work equally well on Linux, Windows or Mac.
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/lihpc-computational-geometry/spack-cgcore-mgx:latest
-    strategy:
-      fail-fast: false
+      image: ghcr.io/lihpc-computational-geometry/spack-cgcore:latest
 
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2 # seems to be needed by codecov
-          submodules: recursive
-
-      - name: Initialize the dev environment
+      # Initialize Spack environment (Spack and recipes are in the container)
+      - name: Initialize environment
         shell: bash
         run : |
           source /spack/share/spack/setup-env.sh
-          git clone --depth=1 https://github.com/LIHPC-Computational-Geometry/spack_recipes_meshing.git
-          spack repo add ./spack_recipes_meshing/meshing
-          spack repo add ./spack_recipes_meshing/meshing_supersede
+          cd /spack_recipes_meshing && git pull
+          spack repo add /spack_recipes_meshing/meshing
+          spack repo add /spack_recipes_meshing/meshing_supersede
 
-      - name: Build and install with Spack
+      # Checkout project source files
+      - name: Checkout sources for test_link
+        uses: actions/checkout@v3
+
+      # Build the current sources, run unit tests and install
+      - name: Build and install
         shell: bash
         run: |
           source /spack/share/spack/setup-env.sh 
           spack env create ci-env
           spack env activate ci-env
           spack add gmds
-          # we use GITHUB_WORKSPACE instead of github.Workspace because in containers it
-          # seems to be incorrect (see https://github.com/actions/runner/issues/2058)
+          spack add python@3
+          spack add py-pytest
+          # Must set a version number > last version to take right variants in recipes
           spack develop -p $GITHUB_WORKSPACE --no-clone gmds@999
           spack concretize --reuse
-          spack install
+          spack install -v --test=root
 
-      - name: Test C++ lib install
+      # Build and run the test_link directory to check install
+      - name: Build and run test_link
         shell: bash
         run: |
           source /spack/share/spack/setup-env.sh
+          # load the environment
           spack env activate ci-env
-          spack load gmds
+          spack load python
+          spack load py-pytest
+          spack load gmds@999
+
+          # trace for logs
+          python --version
+          command -v python
+          pytest --version
+          command -v pytest
+          echo $PYTHONPATH
+
+          # set PYTHONPATH variable
+          export PACKAGE_PATH=$PACKAGE_PATH/lib/python3.10/site-packages
+          export PYTHONPATH=$PYTHONPATH:$PACKAGE_PATH
+          echo $PYTHONPATH
+
+          # build test_link and run tests
           cd test_link/
-          cmake -S . -B build_exe
-          cmake --build build_exe
-          cd build_exe
-          ctest
+          cmake -S . -B build
+          cmake --build build
+          cmake --build build --target test
+
+      - name: Archive test_link logs
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-of-link-logs
+          path: $GITHUB_WORKSPACE/test_link/build/Testing/Temporary/LastTest.log
