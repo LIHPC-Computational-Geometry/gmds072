@@ -15,7 +15,7 @@ env:
 # and github repository is gmds072. Names needs to be identical to use reusable ci
 #  call:
 #    name: Call Spack CI
-#    uses: LIHPC-Computational-Geometry/spack_recipes_meshing/.github/workflows/spack-reusable.yml@main
+#    uses: LIHPC-Computational-Geometry/spack_recipes/.github/workflows/spack-reusable.yml@main
 # While waiting for the merge of gmds versions, copy/paste of workflow 
 jobs:
 
@@ -33,9 +33,9 @@ jobs:
         shell: bash
         run : |
           source /spack/share/spack/setup-env.sh
-          cd /spack_recipes_meshing && git pull
-          spack repo add /spack_recipes_meshing/meshing
-          spack repo add /spack_recipes_meshing/meshing_supersede
+          cd /spack_recipes && git pull
+          spack repo add /spack_recipes/meshing
+          spack repo add /spack_recipes/meshing_supersede
 
       # Checkout project source files
       - name: Checkout sources for test_link
