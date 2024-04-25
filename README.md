@@ -1,4 +1,4 @@
-# gmds072
+# gmds072 (deprecated)
 
 ![spack-ci](https://github.com/LIHPC-Computational-Geometry/gmds072/actions/workflows/spack-ci.yml/badge.svg)
 
